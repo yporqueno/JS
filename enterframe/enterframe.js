@@ -3,18 +3,20 @@
 	https://gist.github.com/paulirish/1579671
 
 	Use:
-		EnterFrame.add(function, scope);
-		EnterFrame.remove(function, scope);
-		EnterFrame.pause();
-		EnterFrame.resume();
-		EnterFrame.clear();
-		EnterFrame.getCallbacks();
-		EnterFrame.getTimestamp();
+		YXQN.EnterFrame.add(function, scope);
+		YXQN.EnterFrame.remove(function, scope);
+		YXQN.EnterFrame.pause();
+		YXQN.EnterFrame.resume();
+		YXQN.EnterFrame.clear();
+		YXQN.EnterFrame.getCallbacks();
+		YXQN.EnterFrame.getTimestamp();
 */
 
 // MIT license
 
-var EnterFrame = (function() {
+var YXQN = YXQN || {};
+
+YXQN.EnterFrame = (function() {
 	var _api = {};
 
 	var lastTime = 0;
