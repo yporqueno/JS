@@ -62,7 +62,8 @@ var EnterFrame = (function() {
 	}
 
 
-	//
+	// Aniado callbacks nuevos.
+	// Si ya existe no lo aniado
 	_api.add = function(callback, scope){
 		if(!callback || !scope){return false;}
 		for(var i in _callbacks){
@@ -78,7 +79,7 @@ var EnterFrame = (function() {
 	};
 
 
-	//
+	// Elimino un callback concreto
 	_api.remove = function(callback, scope){
 		if(!callback || !scope){return false;}
 		for(var i in _callbacks){
@@ -93,12 +94,13 @@ var EnterFrame = (function() {
 	};
 
 
-	//
+	// Pauso el enterframe
 	_api.pause = function(){
 		window.cancelAnimationFrame(_id);
 	};
 
-	//
+
+	// Vuelvo a ponerlo en marcha
 	_api.resume = function(){
 		if(_callbacks.length > 0){
 			_id = window.requestAnimationFrame(tic);
@@ -106,20 +108,20 @@ var EnterFrame = (function() {
 	};
 
 
-	//
+	// Detengo por completo el enterframe y vacio su lista de callbacks para que no le afecte un futuro resume
 	_api.clear = function(){
 		window.cancelAnimationFrame(_id);
 		_callbacks = [];
 	};
 
 
-	//
+	// Devuelve un listado de los callbacks almacenados
 	_api.getCallbacks = function(){
 		return _callbacks;
 	};
 
 
-	//
+	// Devuelve el timestamp del timer interno
 	_api.getTimestamp = function(){
 		return _timestamp;
 	};
@@ -128,3 +130,4 @@ var EnterFrame = (function() {
 	init();
 	return _api;
 })();
+
