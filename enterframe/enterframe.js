@@ -9,7 +9,7 @@
 		YXQN.EnterFrame.resume();
 		YXQN.EnterFrame.clear();
 		YXQN.EnterFrame.getCallbacks();
-		YXQN.EnterFrame.getTimestamp();
+		YXQN.EnterFrame.setFps(value);
 */
 
 // MIT license
@@ -25,7 +25,8 @@ YXQN.EnterFrame = (function() {
 	var _callbacks = [];
 	var _c;
 	var _id;
-	var _timestamp = 0;
+	var _last = 0;
+	var _minTime = 20;  // 1000/20 = 50 fps
 
 	function init() {
 		for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
@@ -36,7 +37,7 @@ YXQN.EnterFrame = (function() {
 		if (!window.requestAnimationFrame) {
 			window.requestAnimationFrame = function(callback, element) {
 				var currTime = new Date().getTime();
-				var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+				var timeToCall = Math.max(0, _minTime - (currTime - lastTime));
 				var id = window.setTimeout(function() {
 					callback(currTime + timeToCall);
 				}, timeToCall);
@@ -54,11 +55,14 @@ YXQN.EnterFrame = (function() {
 	
 
 	// Recursividad
-	function tic(timestamp) {
-		_timestamp = timestamp;
-		for(var i in _callbacks){
-			_c = _callbacks[i];
-			_c.fn.call(_c.sc);
+	function tic() {
+		var now = new Date();
+		if((now-_last) > _minTime ){
+			_last = now;
+			for(var i in _callbacks){
+				_c = _callbacks[i];
+				_c.fn.call(_c.sc);
+			}
 		}
 		_id = window.requestAnimationFrame(tic);
 	}
@@ -123,9 +127,9 @@ YXQN.EnterFrame = (function() {
 	};
 
 
-	// Devuelve el timestamp del timer interno
-	_api.getTimestamp = function(){
-		return _timestamp;
+	// Asigno un tiempo minimo entre intervalos, para evitar que vaya demasiado rapido en ordenadores muy potentes y homogeneizar el comportamiento
+	_api.setFps = function(value){
+		_minTime = Math.round(Math.max(0, 1000/value));
 	};
 
 
