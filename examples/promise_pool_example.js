@@ -9,10 +9,10 @@ undo.push(yo.getCompleteName.bind(yo));
 //undo.push(yo.getError.bind(yo));
 
 undo.all()
-  .then(result=>{
+  .then(result => {
     console.log('Result: ', result);
   })
-  .catch(error=>{
+  .catch(error => {
     console.log('Result Error:', error)
   });
 
